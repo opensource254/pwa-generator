@@ -21,5 +21,13 @@
   "description": "A Simple PWA Generator for any web application.",
   "main": "postcss.config.js",
   "author": "Stanley Masinde",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opensource254/pwa-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/opensource254/pwa-generator/issues"
+  },
+  "homepage": "https://github.com/opensource254/pwa-generator#readme"
 }
