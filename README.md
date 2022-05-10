@@ -2,9 +2,9 @@
 > A Simple PWA Generator for any web application.
 
 ### Features
-- [ ] [**Generate Manifest**](#generate)
-- [ ] [**Generate Service Worker**](#Service-Worker)
-- [ ] [**Generate Icons**](#Icons)
+- [ ] [**Generate Manifest**](#Generate-Manifest)
+- [ ] [**Generate Service Worker**](#Generate-Service-Worker)
+- [ ] [**Generate Icons**](#Generate-Icons)
 - [ ] [**Offline Support**](#Offline-Support)
 - [ ] [**IndexedDB**](#IndexedDB)
 - [ ] [**Push Notifications**](#Push-Notifications)
