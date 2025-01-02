@@ -11,7 +11,7 @@
         class="w-full focus:border-cyan-900 focus:ring-1 border-2 focus:outline-none rounded-md mb-3 last-of-type:mb-0"
         type="text" name="name" id="name">
 
-      <label class=" font-semibold" for="shortname">Shortname</label>
+      <label class=" font-semibold" for="shortname">Short name</label>
       <input v-model="manifest.short_name"
         class="w-full focus:border-cyan-900 focus:ring-1 border-2 focus:outline-none rounded-md mb-3" type="text"
         name="shortname" id="shortname">
@@ -28,7 +28,6 @@
         <option class=" bg-slate-500" value="standalone">Standalone</option>
         <option value="browser">Browser</option>
       </select>
-
     </form>
   </section>
 

@@ -1,6 +1,8 @@
 ## PWA Generator
 > A Simple PWA Generator for any web application.
 
+You can try it [here](https://opensource254.github.io/pwa-generator/)
+
 ### Features
 - [ ] [**Generate Manifest**](#Generate-Manifest)
 - [ ] [**Generate Service Worker**](#Generate-Service-Worker)
