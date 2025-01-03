@@ -1,9 +1,9 @@
 <template>
-  <nav class=" bg-cyan-900 text-white px-1 sm:px-28 py-4">
-    <h1 class=" font-bold shadow">PWA generator</h1>
+  <nav class="bg-cyan-900 text-white px-1 sm:px-28 py-4 px-2">
+    <h1 class="font-bold shadow">PWA generator</h1>
   </nav>
 
-  <section class="px-1 sm:px-28">
+  <section class="px-2 sm:px-28">
     <form action="#" method="post">
 
       <label class="font-semibold" for="App name">Name</label>
@@ -21,6 +21,18 @@
         class="form_input" type="text"
         name="description" id="description">
 
+      <label class="font-semibold" for="theme_color">Theme color</label>
+      <input v-model="manifest.theme_color"
+        class="form_input h-10" type="color"
+        name="theme_color" id="theme_color">
+
+
+      <label class="font-semibold" for="background_color">Background color</label>
+      <input v-model="manifest.background_color"
+        class="form_input h-10" type="color"
+        name="background_color" id="background_color">
+
+
       <label class="font-semibold" for="display">Display</label>
       <select v-model="manifest.display"
         class="form_input" name="display"
@@ -31,7 +43,7 @@
     </form>
   </section>
 
-  <section class="px-1 sm:px-28">
+  <section class="px-2 sm:px-28">
       <h3 class="text-lg font-semibold">Manifest</h3>
     <div class="overflow-x-scroll relative w-full border rounded-lg">
       <div class="absolute right-1 top-1">
