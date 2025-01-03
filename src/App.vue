@@ -6,33 +6,34 @@
   <section class="px-1 sm:px-28">
     <form action="#" method="post">
 
-      <label class=" font-semibold" for="App name">Name</label>
+      <label class="font-semibold" for="App name">Name</label>
       <input v-model="manifest.name"
-        class="w-full focus:border-cyan-900 focus:ring-1 border-2 focus:outline-none rounded-md mb-3 last-of-type:mb-0"
+        class="form_input"
         type="text" name="name" id="name">
 
       <label class=" font-semibold" for="shortname">Short name</label>
       <input v-model="manifest.short_name"
-        class="w-full focus:border-cyan-900 focus:ring-1 border-2 focus:outline-none rounded-md mb-3" type="text"
+        class="form_input" type="text"
         name="shortname" id="shortname">
 
-      <label class=" font-semibold" for="description">Description</label>
+      <label class="font-semibold" for="description">Description</label>
       <input v-model="manifest.description"
-        class="w-full focus:border-cyan-900 focus:ring-1 border-2 focus:outline-none rounded-md mb-3" type="text"
+        class="form_input" type="text"
         name="description" id="description">
 
-      <label class=" font-semibold" for="display">Display</label>
+      <label class="font-semibold" for="display">Display</label>
       <select v-model="manifest.display"
-        class="w-full focus:border-cyan-900 focus:ring-1 border-2 focus:outline-none rounded-md mb-3" name="display"
+        class="form_input" name="display"
         id="display">
-        <option class=" bg-slate-500" value="standalone">Standalone</option>
+        <option value="standalone">Standalone</option>
         <option value="browser">Browser</option>
       </select>
     </form>
   </section>
 
-  <section class="px-1 sm:px-28 rounded-md">
-    <div class="overflow-x-scroll relative w-full border">
+  <section class="px-1 sm:px-28">
+      <h3 class="text-lg font-semibold">Manifest</h3>
+    <div class="overflow-x-scroll relative w-full border rounded-lg">
       <div class="absolute right-1 top-1">
         <button @click="copyToClipboard">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -42,6 +43,7 @@
           </svg>
         </button>
       </div>
+
       <pre><code class="language-json">
     {
       "name": "{{ manifest.name }}",
