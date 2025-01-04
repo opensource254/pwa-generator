@@ -40,6 +40,16 @@
         <option value="standalone">Standalone</option>
         <option value="browser">Browser</option>
       </select>
+
+      <label class="font-semibold" for="display">Cache type</label>
+      <select v-model="cacheStrategy"
+        class="form_input" name="cacheType"
+        id="display">
+        <option value="cacheFirst">Cache first</option>
+        <option value="networkFirst">Network first</option>
+        <option value="staleWhileRevalidate">Stale while revalidate</option>
+      </select>
+
     </form>
   </section>
 
@@ -47,7 +57,7 @@
       <h3 class="text-lg font-semibold">Manifest</h3>
     <div class="overflow-x-scroll relative w-full border rounded-lg">
       <div class="absolute right-1 top-1">
-        <button @click="copyToClipboard">
+        <button @click="copyToClipboard('manifest')">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
             stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -70,6 +80,26 @@
     </div>
   </section>
 
+  <section class="px-2 sm:px-28">
+      <h3 class="text-lg font-semibold">Service Worker</h3>
+    <div class="overflow-x-scroll relative w-full border rounded-lg">
+      <div class="absolute right-1 top-1">
+        <button @click="copyToClipboard('serviceWorker')">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+        </button>
+      </div>
+
+      <pre>
+      <code class="language-json"> 
+      {{ serviceWorkerString }}
+      </code>
+      </pre>
+    </div>
+  </section>
 
   <div v-show="toast.show" class="transition ease-in-out duration-[10000] text-center font-semibold border rounded-xl fixed w-full bg-black text-white p-3 opacity-70 bottom-1">
     <h1>Manifest copied to clipboard</h1>
@@ -77,27 +107,86 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref, onMounted, watch } from 'vue';
+
 
 const manifest = reactive({
   name: '',
   short_name: '',
   description: '',
   start_url: '/',
-  background_color: '#fff',
-  theme_color: '#fff',
+  background_color: '#000000',
+  theme_color: '#000000',
   display: 'standalone',
   lang: 'en'
 });
-
+const cacheStrategy = ref('cacheFirst')
+const serviceWorkerSkipWaiting = ref(true)
 const toast = reactive({ show: false });
+const serviceWorkerString = ref('')
 
-function copyToClipboard() {
-  navigator.clipboard.writeText(JSON.stringify(manifest, null, 2));
-  toast.show = true;
-  setTimeout(() => {
-    toast.show = false;
-  }, 5000);
+
+// watchers 
+watch(cacheStrategy, (_newValue) => {
+  serviceWorkerString.value = generateServiceWorker()
+})
+
+function copyToClipboard(part = 'manifest') {
+  let textToCopy = JSON.stringify(manifest, null, 2);   
+  if (part !== 'manifest') {
+    textToCopy = serviceWorkerString.value; 
+    }
+
+  navigator.clipboard.writeText(textToCopy)
+    .then(() => {
+      toast.show = true;       setTimeout(() => {
+        toast.show = false;
+      }, 5000);
+    })
+    }
+
+// Function to generate Service Worker
+function generateServiceWorker() {
+  return `
+    const CACHE_NAME = 'V1-CACHE';
+    const FILES_TO_CACHE = ['/'];
+    
+    self.addEventListener('install', (event) => {
+      event.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
+      );
+    });
+
+    self.addEventListener('fetch', (event) => {
+      const url = new URL(event.request.url);
+      const strategy = '${cacheStrategy.value}'
+           
+      if (strategy === 'cache-first') {
+        event.respondWith(
+          caches.match(event.request).then((response) => 
+            response || fetch(event.request)
+          )
+        );
+      } else if (strategy === 'network-first') {
+        event.respondWith(
+          fetch(event.request)
+            .then((response) => {
+              const clone = response.clone();
+              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+              return response;
+            })
+            .catch(() => caches.match(event.request))
+        );
+      }
+    });
+
+    ${serviceWorkerSkipWaiting ? 'self.skipWaiting();' : ''}
+    ${true ? 'self.addEventListener("activate", () => self.clients.claim());' : ''}
+  `;
 }
+
+onMounted(() => {
+  serviceWorkerString.value = generateServiceWorker()
+})
 </script>
 
