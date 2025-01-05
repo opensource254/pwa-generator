@@ -9,6 +9,11 @@ export default [
   {
     ignores: ['dist/*'],
   },
+  {
+    rules: {
+      '@stylistic/semi': 'error',
+    },
+  },
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   stylistic.configs.customize({}),
