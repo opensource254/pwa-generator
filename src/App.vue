@@ -26,12 +26,10 @@
         class="form_input h-10" type="color"
         name="theme_color" id="theme_color">
 
-
       <label class="font-semibold" for="background_color">Background color</label>
       <input v-model="manifest.background_color"
         class="form_input h-10" type="color"
         name="background_color" id="background_color">
-
 
       <label class="font-semibold" for="display">Display</label>
       <select v-model="manifest.display"
@@ -94,7 +92,7 @@
       </div>
 
       <pre>
-      <code class="language-json"> 
+      <code class="language-json">
       {{ serviceWorkerString }}
       </code>
       </pre>
@@ -107,8 +105,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted, watch } from 'vue';
-
+import { reactive, ref, onMounted, watch } from 'vue'
 
 const manifest = reactive({
   name: '',
@@ -118,32 +115,32 @@ const manifest = reactive({
   background_color: '#000000',
   theme_color: '#000000',
   display: 'standalone',
-  lang: 'en'
-});
+  lang: 'en',
+})
 const cacheStrategy = ref('cacheFirst')
 const serviceWorkerSkipWaiting = ref(true)
-const toast = reactive({ show: false });
+const toast = reactive({ show: false })
 const serviceWorkerString = ref('')
 
-
-// watchers 
-watch(cacheStrategy, (_newValue) => {
+// watchers
+watch(cacheStrategy, () => {
   serviceWorkerString.value = generateServiceWorker()
 })
 
 function copyToClipboard(part = 'manifest') {
-  let textToCopy = JSON.stringify(manifest, null, 2);   
+  let textToCopy = JSON.stringify(manifest, null, 2)
   if (part !== 'manifest') {
-    textToCopy = serviceWorkerString.value; 
-    }
+    textToCopy = serviceWorkerString.value
+  }
 
   navigator.clipboard.writeText(textToCopy)
     .then(() => {
-      toast.show = true;       setTimeout(() => {
-        toast.show = false;
-      }, 5000);
+      toast.show = true
+      setTimeout(() => {
+        toast.show = false
+      }, 5000)
     })
-    }
+}
 
 // Function to generate Service Worker
 function generateServiceWorker() {
@@ -180,13 +177,13 @@ function generateServiceWorker() {
       }
     });
 
-    ${serviceWorkerSkipWaiting ? 'self.skipWaiting();' : ''}
-    ${true ? 'self.addEventListener("activate", () => self.clients.claim());' : ''}
-  `;
+    ${serviceWorkerSkipWaiting.value ? 'self.skipWaiting();' : ''}
+    // eslint-disable-next-line no-constant-condition
+    self.addEventListener("activate", () => self.clients.claim())
+  `
 }
 
 onMounted(() => {
   serviceWorkerString.value = generateServiceWorker()
 })
 </script>
-
