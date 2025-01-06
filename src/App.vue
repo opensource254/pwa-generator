@@ -64,17 +64,9 @@
         </button>
       </div>
 
-      <pre><code class="language-json">
-    {
-      "name": "{{ manifest.name }}",
-      "short_name": "{{ manifest.short_name }}",
-      "description": "{{ manifest.description }}",
-      "start_url": "{{ manifest.start_url }}",
-      "background_color": "{{ manifest.background_color }}",
-      "theme_color": "{{ manifest.theme_color }}",
-      "display": "{{ manifest.display }}",
-    }
-    </code></pre>
+      <pre>
+      <code  v-html="hljs.highlight(manifestString, {language: 'json'}).value"/>
+      </pre>
     </div>
   </section>
 
@@ -92,9 +84,7 @@
       </div>
 
       <pre>
-      <code class="language-json">
-      {{ serviceWorkerString }}
-      </code>
+      <code v-html="hljs.highlight(serviceWorkerString,  { language: 'javascript' }).value"/>
       </pre>
     </div>
   </section>
@@ -106,7 +96,15 @@
 
 <script setup>
 import { reactive, ref, onMounted, watch } from 'vue'
+// Using ES6 import syntax
+import hljs from 'highlight.js/lib/core'
+import javascript from 'highlight.js/lib/languages/javascript'
+import json from 'highlight.js/lib/languages/json'
+import 'highlight.js/styles/github.css'
 
+hljs.registerLanguage('javascript', javascript)
+
+hljs.registerLanguage('json', json)
 const manifest = reactive({
   name: '',
   short_name: '',
@@ -124,9 +122,23 @@ const toast = reactive({
   message: '',
 })
 const serviceWorkerString = ref('')
+const manifestString = ref('')
+
 // watchers
 watch(cacheStrategy, () => {
   serviceWorkerString.value = generateServiceWorker()
+})
+watch(manifest, () => {
+  manifestString.value
+  = `{
+        "name": "${manifest.name}",
+        "short_name": "${manifest.short_name}",
+        "description": "${manifest.description}",
+        "start_url": "${manifest.start_url}",
+        "background_color": "${manifest.background_color}",
+        "theme_color": "${manifest.theme_color}",
+        "display": "${manifest.display}",
+     }`
 })
 
 function copyToClipboard(part = 'manifest') {
@@ -189,5 +201,15 @@ function generateServiceWorker() {
 
 onMounted(() => {
   serviceWorkerString.value = generateServiceWorker()
+  manifestString.value
+  = `{
+        "name": "${manifest.name}",
+        "short_name": "${manifest.short_name}",
+        "description": "${manifest.description}",
+        "start_url": "${manifest.start_url}",
+        "background_color": "${manifest.background_color}",
+        "theme_color": "${manifest.theme_color}",
+        "display": "${manifest.display}",
+     }`
 })
 </script>
