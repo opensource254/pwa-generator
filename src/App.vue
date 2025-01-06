@@ -100,7 +100,7 @@
   </section>
 
   <div v-show="toast.show" class="transition ease-in-out duration-[10000] text-center font-semibold border rounded-xl fixed w-full bg-black text-white p-3 opacity-70 bottom-1">
-    <h1>Manifest copied to clipboard</h1>
+    <h1>{{ toast.message }}</h1>
   </div>
 </template>
 
@@ -119,9 +119,11 @@ const manifest = reactive({
 })
 const cacheStrategy = ref('cacheFirst')
 const serviceWorkerSkipWaiting = ref(true)
-const toast = reactive({ show: false })
+const toast = reactive({
+  show: false,
+  message: '',
+})
 const serviceWorkerString = ref('')
-
 // watchers
 watch(cacheStrategy, () => {
   serviceWorkerString.value = generateServiceWorker()
@@ -129,7 +131,9 @@ watch(cacheStrategy, () => {
 
 function copyToClipboard(part = 'manifest') {
   let textToCopy = JSON.stringify(manifest, null, 2)
+  toast.message = 'Manifest copied to clipboard'
   if (part !== 'manifest') {
+    toast.message = 'Service worker copied to clipboard'
     textToCopy = serviceWorkerString.value
   }
 
