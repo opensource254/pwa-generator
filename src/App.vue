@@ -163,42 +163,94 @@ function generateServiceWorker() {
   return `
     const CACHE_NAME = 'V1-CACHE';
     const FILES_TO_CACHE = ['/'];
-    
+
+    // Install event
     self.addEventListener('install', (event) => {
       event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
-      );
-    });
+      )
+    })
 
+    // Fetch event
     self.addEventListener('fetch', (event) => {
-      const url = new URL(event.request.url);
-      const strategy = '${cacheStrategy.value}'
-           
-      if (strategy === 'cache-first') {
+      const url = new URL(event.request.url)
+
+      // Define route-based strategies
+      // This is temp as an example of route based strategy
+      // The user should be able to configure this or we can start 
+      // With sensible defaults
+      const routes = {
+        '/api': 'networkFirst',
+        '.css': 'cacheFirst',
+        '.js': 'staleWhileRevalidate',
+      };
+
+      let strategy = Object.keys(routes).find((route) => {
+        if (route.startsWith('.')) {
+          // Match by file extension
+          return url.pathname.endsWith(route)
+        }
+        // Match by path
+        return url.pathname.startsWith(route)
+      });
+
+      // Default to the selected option if no match
+      strategy = routes[strategy] || '${cacheStrategy.value}'
+
+      // Apply the selected strategy
+      if (strategy === 'cacheFirst') {
         event.respondWith(
-          caches.match(event.request).then((response) => 
+          caches.match(event.request).then((response) =>
             response || fetch(event.request)
           )
         );
-      } else if (strategy === 'network-first') {
+      } else if (strategy === 'networkFirst') {
         event.respondWith(
           fetch(event.request)
             .then((response) => {
               const clone = response.clone();
-              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+              caches.open(CACHE_NAME).then((cache) =>
+                cache.put(event.request, clone)
+              );
               return response;
             })
             .catch(() => caches.match(event.request))
         );
+      } else if (strategy === 'staleWhileRevalidate') {
+        event.respondWith(
+          caches.match(event.request).then((cachedResponse) => {
+            const fetchPromise = fetch(event.request).then((response) => {
+              const clone = response.clone();
+              caches.open(CACHE_NAME).then((cache) =>
+                cache.put(event.request, clone)
+              );
+              return response;
+            });
+            return cachedResponse || fetchPromise;
+          })
+        );
       }
     });
 
+    // Activate event
+    self.addEventListener('activate', (event) => {
+      event.waitUntil(
+        caches.keys().then((cacheNames) =>
+          Promise.all(
+            cacheNames.map((cacheName) => {
+              if (cacheName !== CACHE_NAME) {
+                return caches.delete(cacheName)
+              }
+            })
+          )
+        )
+      );
+      self.clients.claim();
+    });
+
     ${serviceWorkerSkipWaiting.value ? 'self.skipWaiting();' : ''}
-    // eslint-disable-next-line no-constant-condition
-    self.addEventListener("activate", () => self.clients.claim())
   `
 }
-
 onMounted(() => {
   serviceWorkerString.value = generateServiceWorker()
   manifestString.value
