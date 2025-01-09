@@ -4,7 +4,7 @@
   "version": "0.3.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/pwa-generator/",
+    "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint ."
   },
