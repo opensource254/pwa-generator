@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-undef
-const CACHE_NAME = `pwa-cache-${process.env.BUILD_HASH}`
+// const CACHE_NAME = `pwa-cache-${process.env.BUILD_HASH}`
 // Install event - Cache static assets
 self.addEventListener('install', () => {
   self.skipWaiting()

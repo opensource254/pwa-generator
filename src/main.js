@@ -7,10 +7,8 @@ import './index.css'
  * */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    const swPath = '/pwa-generator/sw.js' // Use the base path for the service worker
-
     navigator.serviceWorker
-      .register(swPath, { scope: '/pwa-generator/' }) // Ensure the scope matches the base path
+      .register('/sw.js') // Ensure the scope matches the base path
       .then((reg) => {
         console.log(`Service Worker registered for ${reg.scope}`)
       })
@@ -19,4 +17,5 @@ if ('serviceWorker' in navigator) {
       })
   })
 }
+
 createApp(App).mount('#app')

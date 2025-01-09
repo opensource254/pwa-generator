@@ -11,7 +11,6 @@ export default defineConfig({
       'process.env.BUILD_HASH': JSON.stringify(Date.now()),
     }),
   ],
-  base: '/pwa-generator',
   build: {
     rollupOptions: {
       input: {
