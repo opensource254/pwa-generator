@@ -5,7 +5,7 @@ import './index.css'
 /**
  * Register the service worker
  * */
-if ('serviceWorker' in navigator) {
+if (import.meta.env.MODE !== 'development' && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('/sw.js') // Ensure the scope matches the base path
