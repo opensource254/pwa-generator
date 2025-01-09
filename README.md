@@ -1,7 +1,7 @@
 ## PWA Generator
 > A Simple PWA Generator for any web application.
 
-You can try it [here](https://opensource254.github.io/pwa-generator/)
+Live Demo <https://pwagenerator.netlify.app>
 
 ### Features
 - [ ] [**Generate Manifest**](#Generate-Manifest)
