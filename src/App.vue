@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-cyan-900 text-white px-1 sm:px-28 py-4 px-2">
+  <nav class="bg-primary text-white px-1 sm:px-28 py-4 px-2">
     <h1 class="font-bold shadow">PWA generator</h1>
   </nav>
 
