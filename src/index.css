@@ -4,6 +4,6 @@
 
 @layer components {
   .form_input {
-    @apply w-full focus:border-cyan-900 focus:ring-1 border-2 focus:outline-none rounded-md mb-3 last-of-type:mb-5;
+    @apply w-full focus:border-primary focus:ring-1 border-2 focus:outline-none rounded-md mb-3 last-of-type:mb-5;
   }
 }
