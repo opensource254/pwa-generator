@@ -1,6 +1,8 @@
 {
   "name": "PWA Generator",
   "short_name": "PWA Generator",
+  "lang": "en",
+  "description": "This tool helps you quickly generate code for your PWA",
   "icons": [
     {
       "src": "icons/icon-48x48.png",
