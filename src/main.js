@@ -8,8 +8,7 @@ import './index.css'
 if (import.meta.env.MODE !== 'development' && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register('/sw.js') // Ensure the scope matches the base path
-      .then((reg) => {
+      .register('/sw.js').then((reg) => {
         console.log(`Service Worker registered for ${reg.scope}`)
       })
       .catch((error) => {
