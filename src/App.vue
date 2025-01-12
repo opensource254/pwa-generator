@@ -1,8 +1,10 @@
 <template>
-  <nav class="bg-primary text-white px-1 sm:px-28 py-4 px-2">
-    <h1 class="font-bold">PWA generator</h1>
-  </nav>
+<nav class="bg-primary text-white px-1 sm:px-28 py-4">
+  <h1 class="font-bold">PWA generator</h1>
+</nav>
 
+<div class="flex">
+  <div>
   <section class="px-2 sm:px-28">
     <form action="#" method="post">
 
@@ -88,10 +90,12 @@
       </pre>
     </div>
   </section>
-
-  <div v-show="toast.show" class="transition ease-in-out duration-[10000] text-center font-semibold border rounded-xl fixed w-full bg-black text-white p-3 opacity-70 bottom-1">
-    <h1>{{ toast.message }}</h1>
   </div>
+</div>
+
+<div v-show="toast.show" class="transition ease-in-out duration-[10000] text-center font-semibold border rounded-xl fixed w-full bg-black text-white p-3 opacity-70 bottom-1">
+    <h1>{{ toast.message }}</h1>
+</div>
 </template>
 
 <script setup>
