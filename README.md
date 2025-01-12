@@ -4,8 +4,8 @@
 Live Demo <https://pwagenerator.netlify.app>
 
 ### Features
-- [ ] [**Generate Manifest**](#Generate-Manifest)
-- [ ] [**Generate Service Worker**](#Generate-Service-Worker)
+- [x] [**Generate Manifest**](#Generate-Manifest)
+- [x] [**Generate Service Worker**](#Generate-Service-Worker)
 - [ ] [**Generate Icons**](#Generate-Icons)
 - [ ] [**Offline Support**](#Offline-Support)
 - [ ] [**IndexedDB**](#IndexedDB)
