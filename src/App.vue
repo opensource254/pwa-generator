@@ -245,7 +245,6 @@ function generateServiceWorker() {
           )
         )
       );
-      self.clients.claim();
     });
 
     ${serviceWorkerSkipWaiting.value ? 'self.skipWaiting();' : ''}
