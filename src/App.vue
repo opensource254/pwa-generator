@@ -6,15 +6,16 @@
   <section class="px-2 sm:px-28">
     <form action="#" method="post">
 
-      <label class="font-semibold" for="App name">Name</label>
+      <label class="font-semibold"  for="appName">Name</label>
       <input v-model="manifest.name"
         class="form_input"
-        type="text" name="name" id="name">
+		autocomplete="off"
+        type="text" name="name" id="appName">
 
-      <label class=" font-semibold" for="shortname">Short name</label>
+      <label class="font-semibold" for="shortName">Short name</label>
       <input v-model="manifest.short_name"
         class="form_input" type="text"
-        name="shortname" id="shortname">
+        name="shortname" id="shortName">
 
       <label class="font-semibold" for="description">Description</label>
       <input v-model="manifest.description"
@@ -25,6 +26,17 @@
       <input v-model="manifest.theme_color"
         class="form_input h-10" type="color"
         name="theme_color" id="theme_color">
+
+	 <label class="font-semibold"  for="appId">App Id</label>
+     <input v-model="manifest.id"
+        class="form_input"
+        type="text" name="app_id" id="appId">
+
+	 <label class="font-semibold"  for="startUrl">Start URL</label>
+     <input v-model="manifest.start_url"
+        class="form_input"
+        type="text" name="startUrl" id="startUrl">
+
 
       <label class="font-semibold" for="background_color">Background color</label>
       <input v-model="manifest.background_color"
@@ -39,10 +51,10 @@
         <option value="browser">Browser</option>
       </select>
 
-      <label class="font-semibold" for="display">Cache type</label>
+      <label class="font-semibold" for="cacheType">Cache type</label>
       <select v-model="cacheStrategy"
         class="form_input" name="cacheType"
-        id="display">
+        id="cacheType">
         <option value="cacheFirst">Cache first</option>
         <option value="networkFirst">Network first</option>
         <option value="staleWhileRevalidate">Stale while revalidate</option>
@@ -106,10 +118,13 @@ hljs.registerLanguage('javascript', javascript)
 
 hljs.registerLanguage('json', json)
 const manifest = reactive({
-  name: '',
-  short_name: '',
-  description: '',
-  start_url: '/',
+  id: '/?source=pwa',
+  start_url: '/?source=pwa',
+  name: 'My App',
+  short_name: 'MyApp',
+  icons: [],
+  shortcuts: [],
+  description: 'My awesome PWA app',
   background_color: '#000000',
   theme_color: '#000000',
   display: 'standalone',
@@ -128,18 +143,55 @@ const manifestString = ref('')
 watch(cacheStrategy, () => {
   serviceWorkerString.value = generateServiceWorker()
 })
-watch(manifest, () => {
+watch(manifest, () => generateManifest())
+
+const generateManifest = () => {
   manifestString.value
-  = `{
-        "name": "${manifest.name}",
-        "short_name": "${manifest.short_name}",
-        "description": "${manifest.description}",
-        "start_url": "${manifest.start_url}",
-        "background_color": "${manifest.background_color}",
-        "theme_color": "${manifest.theme_color}",
-        "display": "${manifest.display}",
-     }`
-})
+  = `
+	{
+		"name": "${manifest.name}",
+		"short_name": "${manifest.short_name}",
+			"icons": [
+				{
+					"src": "/images/icons-vector.svg",
+					"type": "image/svg+xml",
+					"sizes": "512x512"
+				},
+				{
+					"src": "/images/icons-192.png",
+					"type": "image/png",
+					"sizes": "192x192"
+				},
+				{
+					"src": "/images/icons-512.png",
+					"type": "image/png",
+					"sizes": "512x512"
+				}
+			],
+		"id": "${manifest.id}",
+		"start_url": "${manifest.start_url}",
+		"background_color": "${manifest.background_color}",
+		"display": "standalone",
+		"scope": "${manifest.start_url}",
+		"theme_color": "${manifest.theme_color}",
+		"shortcuts": [],
+		"description": "${manifest.description}",
+		"screenshots": [
+			{
+				"src": "/images/screenshot1.png",
+				"type": "image/png",
+				"sizes": "540x720",
+				"form_factor": "narrow"
+			},
+			{
+				"src": "/images/screenshot2.jpg",
+				"type": "image/jpg",
+				"sizes": "720x540",
+				"form_factor": "wide"
+			}
+		]
+	}`
+}
 
 function copyToClipboard(part = 'manifest') {
   let textToCopy = JSON.stringify(manifest, null, 2)
@@ -252,15 +304,6 @@ function generateServiceWorker() {
 }
 onMounted(() => {
   serviceWorkerString.value = generateServiceWorker()
-  manifestString.value
-  = `{
-        "name": "${manifest.name}",
-        "short_name": "${manifest.short_name}",
-        "description": "${manifest.description}",
-        "start_url": "${manifest.start_url}",
-        "background_color": "${manifest.background_color}",
-        "theme_color": "${manifest.theme_color}",
-        "display": "${manifest.display}",
-     }`
+  generateManifest()
 })
 </script>
