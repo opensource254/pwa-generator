@@ -101,7 +101,7 @@
     </div>
   </section>
 
-  <div v-show="toast.show" class="transition ease-in-out duration-[10000] text-center font-semibold border rounded-xl fixed w-full bg-black text-white p-3 opacity-70 bottom-1">
+  <div v-show="toast.show" class="transition ease-in-out duration-10000 text-center font-semibold border rounded-xl fixed w-full bg-black text-white p-3 opacity-70 bottom-1">
     <h1>{{ toast.message }}</h1>
   </div>
 </template>
