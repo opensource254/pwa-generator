@@ -4,150 +4,196 @@
   </nav>
 
   <section class="px-2 sm:px-28">
-    <form action="#" method="post">
+    <StepsComponent>
+      <template v-slot:step1>
+        <form action="#" method="post">
+          <label class="font-semibold" for="appName">Name</label>
+          <input
+            v-model="manifest.name"
+            class="form_input"
+            autocomplete="off"
+            type="text"
+            name="name"
+            id="appName"
+          />
 
-      <label class="font-semibold"  for="appName">Name</label>
-      <input v-model="manifest.name"
-        class="form_input"
-		autocomplete="off"
-        type="text" name="name" id="appName">
+          <label class="font-semibold" for="shortName">Short name</label>
+          <input
+            v-model="manifest.short_name"
+            class="form_input"
+            type="text"
+            name="shortname"
+            id="shortName"
+          />
 
-      <label class="font-semibold" for="shortName">Short name</label>
-      <input v-model="manifest.short_name"
-        class="form_input" type="text"
-        name="shortname" id="shortName">
+          <label class="font-semibold" for="description">Description</label>
+          <input
+            v-model="manifest.description"
+            class="form_input"
+            type="text"
+            name="description"
+            id="description"
+          />
 
-      <label class="font-semibold" for="description">Description</label>
-      <input v-model="manifest.description"
-        class="form_input" type="text"
-        name="description" id="description">
+          <label class="font-semibold" for="theme_color">Theme color</label>
+          <input
+            v-model="manifest.theme_color"
+            class="form_input h-10"
+            type="color"
+            name="theme_color"
+            id="theme_color"
+          />
 
-      <label class="font-semibold" for="theme_color">Theme color</label>
-      <input v-model="manifest.theme_color"
-        class="form_input h-10" type="color"
-        name="theme_color" id="theme_color">
+          <label class="font-semibold" for="background_color"
+            >Background color</label
+          >
+          <input
+            v-model="manifest.background_color"
+            class="form_input h-10"
+            type="color"
+            name="background_color"
+            id="background_color"
+          />
+        </form>
+      </template>
 
-	 <label class="font-semibold"  for="appId">App Id</label>
-     <input v-model="manifest.id"
-        class="form_input"
-        type="text" name="app_id" id="appId">
+      <template v-slot:step2>
+        <div>
+          <label class="font-semibold" for="display">Display</label>
+          <select
+            v-model="manifest.display"
+            class="form_input"
+            name="display"
+            id="display"
+          >
+            <option value="standalone">Standalone</option>
+            <option value="browser">Browser</option>
+          </select>
 
-	 <label class="font-semibold"  for="startUrl">Start URL</label>
-     <input v-model="manifest.start_url"
-        class="form_input"
-        type="text" name="startUrl" id="startUrl">
+          <label class="font-semibold" for="cacheType">Cache type</label>
+          <select
+            v-model="cacheStrategy"
+            class="form_input"
+            name="cacheType"
+            id="cacheType"
+          >
+            <option value="cacheFirst">Cache first</option>
+            <option value="networkFirst">Network first</option>
+            <option value="staleWhileRevalidate">Stale while revalidate</option>
+          </select>
+        </div>
+      </template>
 
+      <template v-slot:step3>
+        <section class="">
+          <h3 class="text-lg font-semibold">Manifest</h3>
+          <div class="overflow-x-scroll relative w-full border rounded-lg">
+            <div class="absolute right-1 top-1">
+              <button @click="copyToClipboard('manifest')">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  />
+                </svg>
+              </button>
+            </div>
 
-      <label class="font-semibold" for="background_color">Background color</label>
-      <input v-model="manifest.background_color"
-        class="form_input h-10" type="color"
-        name="background_color" id="background_color">
-
-      <label class="font-semibold" for="display">Display</label>
-      <select v-model="manifest.display"
-        class="form_input" name="display"
-        id="display">
-        <option value="standalone">Standalone</option>
-        <option value="browser">Browser</option>
-      </select>
-
-      <label class="font-semibold" for="cacheType">Cache type</label>
-      <select v-model="cacheStrategy"
-        class="form_input" name="cacheType"
-        id="cacheType">
-        <option value="cacheFirst">Cache first</option>
-        <option value="networkFirst">Network first</option>
-        <option value="staleWhileRevalidate">Stale while revalidate</option>
-      </select>
-
-    </form>
-  </section>
-
-  <section class="px-2 sm:px-28">
-      <h3 class="text-lg font-semibold">Manifest</h3>
-    <div class="overflow-x-scroll relative w-full border rounded-lg">
-      <div class="absolute right-1 top-1">
-        <button @click="copyToClipboard('manifest')">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-            stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-          </svg>
-        </button>
-      </div>
-
-      <pre>
+            <pre>
       <code  v-html="hljs.highlight(manifestString, {language: 'json'}).value"/>
       </pre>
-    </div>
-  </section>
+          </div>
+        </section>
 
-  <section class="px-2 sm:px-28">
-      <h3 class="text-lg font-semibold">Service Worker</h3>
-    <div class="overflow-x-scroll relative w-full border rounded-lg">
-      <div class="absolute right-1 top-1">
-        <button @click="copyToClipboard('serviceWorker')">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-            stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-          </svg>
-        </button>
-      </div>
+        <section class="">
+          <h3 class="text-lg font-semibold">Service Worker</h3>
+          <div class="overflow-x-scroll relative w-full border rounded-lg">
+            <div class="absolute right-1 top-1">
+              <button @click="copyToClipboard('serviceWorker')">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  />
+                </svg>
+              </button>
+            </div>
 
-      <pre>
+            <pre>
       <code v-html="hljs.highlight(serviceWorkerString,  { language: 'javascript' }).value"/>
       </pre>
-    </div>
+          </div>
+        </section>
+      </template>
+    </StepsComponent>
   </section>
 
-  <div v-show="toast.show" class="transition ease-in-out duration-10000 text-center font-semibold border rounded-xl fixed w-full bg-black text-white p-3 opacity-70 bottom-1">
+  <div
+    v-show="toast.show"
+    class="transition ease-in-out duration-10000 text-center font-semibold border rounded-xl fixed w-full bg-black text-white p-3 opacity-70 bottom-1"
+  >
     <h1>{{ toast.message }}</h1>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref, onMounted, watch } from 'vue'
+import { reactive, ref, onMounted, watch } from "vue";
 // Using ES6 import syntax
-import hljs from 'highlight.js/lib/core'
-import javascript from 'highlight.js/lib/languages/javascript'
-import json from 'highlight.js/lib/languages/json'
-import 'highlight.js/styles/github.css'
+import hljs from "highlight.js/lib/core";
+import javascript from "highlight.js/lib/languages/javascript";
+import json from "highlight.js/lib/languages/json";
+import "highlight.js/styles/github.css";
+import StepsComponent from "./components/StepsComponent.vue";
 
-hljs.registerLanguage('javascript', javascript)
+hljs.registerLanguage("javascript", javascript);
 
-hljs.registerLanguage('json', json)
+hljs.registerLanguage("json", json);
 const manifest = reactive({
-  id: '/?source=pwa',
-  start_url: '/?source=pwa',
-  name: 'My App',
-  short_name: 'MyApp',
+  id: "/?source=pwa",
+  start_url: "/?source=pwa",
+  name: "My App",
+  short_name: "MyApp",
   icons: [],
   shortcuts: [],
-  description: 'My awesome PWA app',
-  background_color: '#000000',
-  theme_color: '#000000',
-  display: 'standalone',
-  lang: 'en',
-})
-const cacheStrategy = ref('cacheFirst')
-const serviceWorkerSkipWaiting = ref(true)
+  description: "My awesome PWA app",
+  background_color: "#000000",
+  theme_color: "#000000",
+  display: "standalone",
+  lang: "en",
+});
+const cacheStrategy = ref("cacheFirst");
+const serviceWorkerSkipWaiting = ref(true);
 const toast = reactive({
   show: false,
-  message: '',
-})
-const serviceWorkerString = ref('')
-const manifestString = ref('')
+  message: "",
+});
+const serviceWorkerString = ref("");
+const manifestString = ref("");
 
 // watchers
 watch(cacheStrategy, () => {
-  serviceWorkerString.value = generateServiceWorker()
-})
-watch(manifest, () => generateManifest())
+  serviceWorkerString.value = generateServiceWorker();
+});
+watch(manifest, () => generateManifest());
 
 const generateManifest = () => {
-  manifestString.value
-  = `
+  manifestString.value = `
 	{
 		"name": "${manifest.name}",
 		"short_name": "${manifest.short_name}",
@@ -190,24 +236,23 @@ const generateManifest = () => {
 				"form_factor": "wide"
 			}
 		]
-	}`
-}
+	}`;
+};
 
-function copyToClipboard(part = 'manifest') {
-  let textToCopy = JSON.stringify(manifest, null, 2)
-  toast.message = 'Manifest copied to clipboard'
-  if (part !== 'manifest') {
-    toast.message = 'Service worker copied to clipboard'
-    textToCopy = serviceWorkerString.value
+function copyToClipboard(part = "manifest") {
+  let textToCopy = JSON.stringify(manifest, null, 2);
+  toast.message = "Manifest copied to clipboard";
+  if (part !== "manifest") {
+    toast.message = "Service worker copied to clipboard";
+    textToCopy = serviceWorkerString.value;
   }
 
-  navigator.clipboard.writeText(textToCopy)
-    .then(() => {
-      toast.show = true
-      setTimeout(() => {
-        toast.show = false
-      }, 5000)
-    })
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    toast.show = true;
+    setTimeout(() => {
+      toast.show = false;
+    }, 5000);
+  });
 }
 
 // Function to generate Service Worker
@@ -299,11 +344,11 @@ function generateServiceWorker() {
       );
     });
 
-    ${serviceWorkerSkipWaiting.value ? 'self.skipWaiting();' : ''}
-  `
+    ${serviceWorkerSkipWaiting.value ? "self.skipWaiting();" : ""}
+  `;
 }
 onMounted(() => {
-  serviceWorkerString.value = generateServiceWorker()
-  generateManifest()
-})
+  serviceWorkerString.value = generateServiceWorker();
+  generateManifest();
+});
 </script>
