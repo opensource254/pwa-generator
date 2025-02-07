@@ -3,6 +3,8 @@
     <h1 class="font-bold">PWA generator</h1>
   </nav>
 
+  <ImageResizer />
+
   <section class="px-2 sm:px-28">
     <StepsComponent>
       <template v-slot:step1>
@@ -160,6 +162,7 @@ import javascript from 'highlight.js/lib/languages/javascript'
 import json from 'highlight.js/lib/languages/json'
 import 'highlight.js/styles/github.css'
 import StepsComponent from './components/StepsComponent.vue'
+import ImageResizer from './components/ImageResizer.vue'
 
 hljs.registerLanguage('javascript', javascript)
 
