@@ -153,47 +153,47 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted, watch } from "vue";
+import { reactive, ref, onMounted, watch } from 'vue'
 // Using ES6 import syntax
-import hljs from "highlight.js/lib/core";
-import javascript from "highlight.js/lib/languages/javascript";
-import json from "highlight.js/lib/languages/json";
-import "highlight.js/styles/github.css";
-import StepsComponent from "./components/StepsComponent.vue";
+import hljs from 'highlight.js/lib/core'
+import javascript from 'highlight.js/lib/languages/javascript'
+import json from 'highlight.js/lib/languages/json'
+import 'highlight.js/styles/github.css'
+import StepsComponent from './components/StepsComponent.vue'
 
-hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage('javascript', javascript)
 
-hljs.registerLanguage("json", json);
+hljs.registerLanguage('json', json)
 const manifest = reactive({
-  id: "/?source=pwa",
-  start_url: "/?source=pwa",
-  name: "My App",
-  short_name: "MyApp",
-  icons: [],
-  shortcuts: [],
-  description: "My awesome PWA app",
-  background_color: "#000000",
-  theme_color: "#000000",
-  display: "standalone",
-  lang: "en",
-});
-const cacheStrategy = ref("cacheFirst");
-const serviceWorkerSkipWaiting = ref(true);
+	id: '/?source=pwa',
+	start_url: '/?source=pwa',
+	name: 'My App',
+	short_name: 'MyApp',
+	icons: [],
+	shortcuts: [],
+	description: 'My awesome PWA app',
+	background_color: '#000000',
+	theme_color: '#000000',
+	display: 'standalone',
+	lang: 'en',
+})
+const cacheStrategy = ref('cacheFirst')
+const serviceWorkerSkipWaiting = ref(true)
 const toast = reactive({
-  show: false,
-  message: "",
-});
-const serviceWorkerString = ref("");
-const manifestString = ref("");
+	show: false,
+	message: '',
+})
+const serviceWorkerString = ref('')
+const manifestString = ref('')
 
 // watchers
 watch(cacheStrategy, () => {
-  serviceWorkerString.value = generateServiceWorker();
-});
-watch(manifest, () => generateManifest());
+	serviceWorkerString.value = generateServiceWorker()
+})
+watch(manifest, () => generateManifest())
 
 const generateManifest = () => {
-  manifestString.value = `
+	manifestString.value = `
 	{
 		"name": "${manifest.name}",
 		"short_name": "${manifest.short_name}",
@@ -236,28 +236,28 @@ const generateManifest = () => {
 				"form_factor": "wide"
 			}
 		]
-	}`;
-};
+	}`
+}
 
-function copyToClipboard(part = "manifest") {
-  let textToCopy = JSON.stringify(manifest, null, 2);
-  toast.message = "Manifest copied to clipboard";
-  if (part !== "manifest") {
-    toast.message = "Service worker copied to clipboard";
-    textToCopy = serviceWorkerString.value;
-  }
+function copyToClipboard(part = 'manifest') {
+	let textToCopy = JSON.stringify(manifest, null, 2)
+	toast.message = 'Manifest copied to clipboard'
+	if (part !== 'manifest') {
+		toast.message = 'Service worker copied to clipboard'
+		textToCopy = serviceWorkerString.value
+	}
 
-  navigator.clipboard.writeText(textToCopy).then(() => {
-    toast.show = true;
-    setTimeout(() => {
-      toast.show = false;
-    }, 5000);
-  });
+	navigator.clipboard.writeText(textToCopy).then(() => {
+		toast.show = true
+		setTimeout(() => {
+			toast.show = false
+		}, 5000)
+	})
 }
 
 // Function to generate Service Worker
 function generateServiceWorker() {
-  return `
+	return `
     const CACHE_NAME = 'V1-CACHE';
     const FILES_TO_CACHE = ['/'];
 
@@ -344,11 +344,11 @@ function generateServiceWorker() {
       );
     });
 
-    ${serviceWorkerSkipWaiting.value ? "self.skipWaiting();" : ""}
-  `;
+    ${serviceWorkerSkipWaiting.value ? 'self.skipWaiting();' : ''}
+  `
 }
 onMounted(() => {
-  serviceWorkerString.value = generateServiceWorker();
-  generateManifest();
-});
+	serviceWorkerString.value = generateServiceWorker()
+	generateManifest()
+})
 </script>

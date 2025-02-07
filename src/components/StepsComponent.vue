@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { ref } from "vue";
-const currentStep = ref<1 | 2 | 3>(1);
+import { ref } from 'vue'
+const currentStep = ref<1 | 2 | 3>(1)
 
 const decrement = () => {
-  if (currentStep.value > 1) {
-    currentStep.value--;
-  }
-};
+	if (currentStep.value > 1) {
+		currentStep.value--
+	}
+}
 const increment = () => {
-  if (currentStep.value < 3) {
-    currentStep.value++;
-  }
-};
+	if (currentStep.value < 3) {
+		currentStep.value++
+	}
+}
 </script>
 
 <template>
