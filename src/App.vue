@@ -3,9 +3,8 @@
     <h1 class="font-bold">PWA generator</h1>
   </nav>
 
-  <ImageResizer />
-
   <section class="px-2 sm:px-28">
+  <ImageResizer />
     <StepsComponent>
       <template v-slot:step1>
         <form action="#" method="post">
