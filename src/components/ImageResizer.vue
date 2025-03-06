@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import vips from 'wasm-vips'
+import { ref, onMounted } from 'vue'
+
+onMounted(async () => {
+// private	await init()
+})
 
 const sizes = [48, 72, 96, 128, 192, 256, 512, 1024]
 const inputFile = ref<File | undefined>()
@@ -12,24 +15,12 @@ const processImage = async () => {
 	// Read file as an array buffer
 	const buffer = await inputFile.value.arrayBuffer()
 
-	console.log(vips.Image)
+	console.log(Image)
 
 	console.log(buffer)
 
-	// Convert buffer to Uint8Array
-	const uint8Array = new Uint8Array(buffer)
-
-	// Load the image into libvips
-	const image = vips.Image.thumbnail(inputFile.value.name, 512, {})
-
 	for (const size of sizes) {
-		// Calculate scale factor
-		const scaleFactor = size / image.width
-
-		// Resize the image
-		const resized = image.resize(scaleFactor)
-
-		console.log(resized)
+		console.log(size)
 	}
 }
 
