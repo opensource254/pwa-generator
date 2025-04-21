@@ -24,10 +24,18 @@
     "eslint-plugin-vue": "^9.33.0",
     "globals": "^15.15.0",
     "highlight.js": "^11.11.1",
+<<<<<<< HEAD
+    "postcss": "^8.5.1",
+    "tailwindcss": "^4.0.0",
+    "typescript-eslint": "^8.23.0",
+    "vite": "^6.0.11",
+    "vite-plugin-wasm": "^3.4.1"
+=======
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.4",
     "typescript-eslint": "^8.31.0",
     "vite": "^6.3.2"
+>>>>>>> main
   },
   "description": "A Simple PWA Generator for any web application.",
   "main": "postcss.config.js",
