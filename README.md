@@ -1,4 +1,4 @@
-# PWA Generator ✨
+# PWA Generator
 
 > Quickly and easily generate the core components of a Progressive Web App (PWA) to enhance your web applications.
 
@@ -12,12 +12,12 @@ Live Demo: [https://pwagenerator.netlify.app](https://pwagenerator.netlify.app)
 
 Here's a breakdown of the current and planned features:
 
-- **Generate Manifest ⚠️:** Creates a fundamental `manifest.json` file, defining essential app metadata such as name, icons (placeholder support), display mode, and start URL. This provides the basic information needed for your PWA to be installable.
-- **Generate Service Worker ⚠️:** Generates a basic service worker script (`service-worker.js`) to enable offline caching and handle basic fetch events. This lays the groundwork for offline functionality and future enhancements like push notifications.
-- **Generate Icons ⏳:** Coming soon! This feature will empower you to effortlessly generate app icons in various sizes and formats, ensuring optimal display across different devices and platforms.
-- **Offline Support ⏳:** Under development! This will enhance the service worker functionality to provide robust offline access to your web application's core content and assets.
-- **IndexedDB Integration ⏳:** Planned for future updates. This will enable your PWA to store structured data locally on the user's device, enabling richer offline experiences and data persistence.
-- **Push Notifications ⏳:** On the roadmap! This exciting feature will allow you to engage users with timely updates and notifications, even when they're not actively using your PWA.
+- **Generate Manifest:** Creates a fundamental `manifest.json` file, defining essential app metadata such as name, icons (placeholder support), display mode, and start URL. This provides the basic information needed for your PWA to be installable.
+- **Generate Service Worker:** Generates a basic service worker script (`service-worker.js`) to enable offline caching and handle basic fetch events. This lays the groundwork for offline functionality and future enhancements like push notifications.
+- **Generate Icons:** Coming soon! This feature will empower you to effortlessly generate app icons in various sizes and formats, ensuring optimal display across different devices and platforms.
+- **Offline Support:** Under development! This will enhance the service worker functionality to provide robust offline access to your web application's core content and assets.
+- **IndexedDB Integration:** Planned for future updates. This will enable your PWA to store structured data locally on the user's device, enabling richer offline experiences and data persistence.
+- **Push Notifications:** On the roadmap! This exciting feature will allow you to engage users with timely updates and notifications, even when they're not actively using your PWA.
 
 ## Getting Started
 
@@ -43,7 +43,7 @@ We are continuously working to improve the PWA Generator. Here's a glimpse of wh
 
 ## Show Your Support
 
-If you find this tool helpful, consider giving it a star! ⭐
+If you find this tool helpful, consider giving it a star!
 
 ## License
 
