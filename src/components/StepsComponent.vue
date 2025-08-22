@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-const currentStep = ref<1 | 2 | 3>(1)
+const currentStep = ref<1 | 2 | 3 | 4>(1)
 
 const decrement = () => {
 	if (currentStep.value > 1) {
@@ -8,7 +8,7 @@ const decrement = () => {
 	}
 }
 const increment = () => {
-	if (currentStep.value < 3) {
+	if (currentStep.value < 4) {
 		currentStep.value++
 	}
 }
@@ -19,7 +19,7 @@ const increment = () => {
     <!-- Step 1 -->
     <div v-show="currentStep === 1">
       <div class="mb-2">
-        <h4 class="text-xl font-bold">Step 1 of 3</h4>
+        <h4 class="text-xl font-bold">Step 1 of 4</h4>
       </div>
 
       <slot name="step1"></slot>
@@ -28,7 +28,7 @@ const increment = () => {
     <!-- Step 2 -->
     <div v-show="currentStep === 2">
       <div class="mb-2">
-        <h4 class="text-xl font-bold">Step 2 of 3</h4>
+        <h4 class="text-xl font-bold">Step 2 of 4</h4>
       </div>
 
       <slot name="step2"></slot>
@@ -37,9 +37,17 @@ const increment = () => {
     <!-- Step 3 -->
     <div v-show="currentStep === 3">
       <div class="mb-2">
-        <h4 class="text-xl font-bold">Step 3 of 3</h4>
+        <h4 class="text-xl font-bold">Step 3 of 4</h4>
       </div>
       <slot name="step3"></slot>
+    </div>
+
+    <!-- Step 4 -->
+    <div v-show="currentStep === 4">
+      <div class="mb-2">
+        <h4 class="text-xl font-bold">Step 4 of 4</h4>
+      </div>
+      <slot name="step4"></slot>
     </div>
 
     <div class="flex justify-between gap-2">
