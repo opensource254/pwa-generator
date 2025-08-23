@@ -248,7 +248,6 @@
 						<!-- Additional PWA Settings -->
 						<div class="space-y-4">
 							<h4 class="text-lg font-semibold text-gray-900">Additional Settings</h4>
-							
 							<div class="space-y-3">
 								<label class="flex items-center">
 									<input
