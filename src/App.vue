@@ -181,18 +181,10 @@
 
 <script setup>
 import { reactive, ref, onMounted, watch } from 'vue'
-// Using ES6 import syntax
-import hljs from 'highlight.js/lib/core'
-import javascript from 'highlight.js/lib/languages/javascript'
-import json from 'highlight.js/lib/languages/json'
-import 'highlight.js/styles/github.css'
 import StepsComponent from './components/StepsComponent.vue'
 import { resize_image } from '../pkg/wasm_image_processor.js'
 import JSZip from 'jszip'
 
-hljs.registerLanguage('javascript', javascript)
-
-hljs.registerLanguage('json', json)
 const manifest = reactive({
 	id: '/?source=pwa',
 	start_url: '/?source=pwa',
