@@ -58,6 +58,7 @@ const increment = () => {
         Previous
       </button>
       <button
+        v-if="currentStep < 4"
         @click="increment"
         class="bg-primary text-white px-2 py-1 rounded-lg w-full"
       >
