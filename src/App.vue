@@ -60,7 +60,7 @@
       <template v-slot:step2>
         <div>
           <h3 class="text-lg font-semibold mb-4">Logo Upload</h3>
-          
+
           <div class="mb-4">
             <label class="font-semibold block mb-2" for="logoUpload">Upload Logo</label>
             <input
@@ -110,7 +110,7 @@
       <template v-slot:step4>
         <div>
           <h3 class="text-lg font-semibold mb-4">Generate Icons & Code</h3>
-          
+
           <!-- Icon Generation Section -->
           <div v-if="uploadedLogo" class="mb-6">
             <div class="flex items-center justify-between mb-4">
@@ -472,11 +472,11 @@ const processLogoToIcons = async () => {
 
 	try {
 		const imageData = await fileToUint8Array(uploadedLogoFile.value)
-		
+
 		for (const size of iconSizes) {
 			try {
 				const resizedData = resize_image(imageData, size)
-				
+
 				// Convert Uint8Array back to blob and create data URL
 				const blob = new Blob([resizedData], { type: 'image/png' })
 				const dataUrl = await new Promise((resolve) => {
@@ -498,7 +498,7 @@ const processLogoToIcons = async () => {
 
 		// Update manifest icons
 		updateManifestIcons()
-		
+
 		toast.message = `Successfully generated ${processedIcons.value.length} icon sizes`
 		toast.show = true
 		setTimeout(() => {
