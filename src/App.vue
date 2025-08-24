@@ -196,7 +196,8 @@
 							</div>
 						</div>
 					</div>
-				</template>				<template v-slot:step3>
+				</template>
+        <template v-slot:step3>
 					<div class="space-y-6">
 						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 							<div>
@@ -458,7 +459,6 @@ const toast = reactive({
 const serviceWorkerString = ref('')
 const manifestString = ref('')
 
-// Logo processing variables
 const uploadedLogo = ref('')
 const uploadedLogoFile = ref(null)
 const isProcessing = ref(false)
@@ -466,10 +466,8 @@ const processedIcons = ref([])
 const isDownloading = ref(false)
 const fileInput = ref(null)
 
-// PWA icon sizes needed
 const iconSizes = [48, 72, 96, 128, 144, 152, 192, 256, 384, 512]
 
-// Cache strategy descriptions
 const cacheStrategyNames = {
 	cacheFirst: 'Cache First',
 	networkFirst: 'Network First',
@@ -482,7 +480,6 @@ const cacheStrategyDescriptions = {
 	staleWhileRevalidate: 'Serves from cache immediately, then updates cache in background. Best balance of speed and freshness.',
 }
 
-// Form validation
 const step1Errors = computed(() => {
 	const errors = []
 	if (!manifest.name.trim()) errors.push('App name is required')
@@ -492,7 +489,6 @@ const step1Errors = computed(() => {
 	return errors
 })
 
-// Toast helper function
 const showToast = (message, type = 'success') => {
 	toast.message = message
 	toast.type = type
@@ -501,7 +497,6 @@ const showToast = (message, type = 'success') => {
 		toast.show = false
 	}, 5000)
 }
-// watchers
 watch(cacheStrategy, () => {
 	serviceWorkerString.value = generateServiceWorker()
 })
@@ -537,7 +532,7 @@ const generateManifest = () => {
 	{
 		"name": "${manifest.name}",
 		"short_name": "${manifest.short_name}",
-			"icons": ${iconsSection},
+		"icons": ${iconsSection},
 		"id": "${manifest.id}",
 		"start_url": "${manifest.start_url}",
 		"background_color": "${manifest.background_color}",
@@ -563,7 +558,6 @@ const generateManifest = () => {
 	}`
 }
 
-// Function to generate Service Worker
 function generateServiceWorker() {
 	return `
     const CACHE_NAME = 'V1-CACHE';
@@ -582,7 +576,7 @@ function generateServiceWorker() {
 
       // Define route-based strategies
       // This is temp as an example of route based strategy
-      // The user should be able to configure this or we can start 
+      // The user should be able to configure this or we can start
       // With sensible defaults
       const routes = {
         '/api': 'networkFirst',
@@ -655,15 +649,12 @@ function generateServiceWorker() {
     ${serviceWorkerSkipWaiting.value ? 'self.skipWaiting();' : ''}
   `
 }
-// Function to handle logo upload
 const handleLogoUpload = async (event) => {
 	const file = event.target.files[0]
 	if (!file) return
 
-	// Store the file for later processing
 	uploadedLogoFile.value = file
 
-	// Create preview
 	const reader = new FileReader()
 	reader.onload = (e) => {
 		uploadedLogo.value = e.target.result
@@ -671,7 +662,6 @@ const handleLogoUpload = async (event) => {
 	reader.readAsDataURL(file)
 }
 
-// Function to convert file to Uint8Array
 const fileToUint8Array = (file) => {
 	return new Promise((resolve, reject) => {
 		const reader = new FileReader()
@@ -685,7 +675,6 @@ const fileToUint8Array = (file) => {
 	})
 }
 
-// Function to process logo into different icon sizes
 const processLogoToIcons = async () => {
 	if (!uploadedLogoFile.value) {
 		showToast('Please upload a logo first', 'error')
@@ -702,7 +691,6 @@ const processLogoToIcons = async () => {
 			try {
 				const resizedData = resize_image(imageData, size)
 
-				// Convert Uint8Array back to blob and create data URL
 				const blob = new Blob([resizedData], { type: 'image/png' })
 				const dataUrl = await new Promise((resolve) => {
 					const reader = new FileReader()
@@ -721,7 +709,6 @@ const processLogoToIcons = async () => {
 			}
 		}
 
-		// Update manifest icons
 		updateManifestIcons()
 
 		showToast(`Successfully generated ${processedIcons.value.length} icon sizes`)
@@ -733,7 +720,8 @@ const processLogoToIcons = async () => {
 	finally {
 		isProcessing.value = false
 	}
-}// Function to update manifest icons based on processed icons
+}
+
 const updateManifestIcons = () => {
 	if (processedIcons.value.length > 0) {
 		manifest.icons = processedIcons.value.map(icon => ({
@@ -745,36 +733,30 @@ const updateManifestIcons = () => {
 	}
 }
 
-// Function to download PWA files as zip
 const downloadPWAFiles = async () => {
 	isDownloading.value = true
 	try {
 		const zip = new JSZip()
 
-		// Add manifest.json
 		zip.file('manifest.json', JSON.stringify(JSON.parse(manifestString.value), null, 2))
 
-		// Add service worker
-		zip.file('service-worker.js', serviceWorkerString.value)
+		zip.file('sw.js', serviceWorkerString.value)
 
-		// Create icons folder and add icons
 		const iconsFolder = zip.folder('icons')
 		if (processedIcons.value.length > 0) {
 			for (const icon of processedIcons.value) {
-				// Convert blob to array buffer
 				const arrayBuffer = await icon.blob.arrayBuffer()
 				iconsFolder.file(`icon-${icon.size}x${icon.size}.png`, arrayBuffer)
 			}
 		}
 
-		// Add README with instructions
 		const readmeContent = `# PWA Files
 
 This package contains the following files for your Progressive Web App:
 
 ## Files Included:
 - \`manifest.json\` - PWA manifest file
-- \`service-worker.js\` - Service worker for offline functionality
+- \`sw.js\` - Service worker for offline functionality
 - \`icons/\` - App icons in various sizes
 
 ## Installation Instructions:
@@ -789,7 +771,7 @@ This package contains the following files for your Progressive Web App:
    Add this script to your HTML file or main JavaScript file:
    \`\`\`javascript
    if ('serviceWorker' in navigator) {
-     navigator.serviceWorker.register('/service-worker.js')
+     navigator.serviceWorker.register('/sw.js')
        .then(registration => console.log('SW registered:', registration))
        .catch(error => console.log('SW registration failed:', error));
    }
@@ -818,7 +800,6 @@ Generated by PWA Generator (https://github.com/opensource254/pwa-generator)
 `
 		zip.file('README.md', readmeContent)
 
-		// Generate and download the zip file
 		const content = await zip.generateAsync({ type: 'blob' })
 		const url = window.URL.createObjectURL(content)
 		const link = document.createElement('a')
