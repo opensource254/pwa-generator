@@ -432,7 +432,7 @@
 <script setup>
 import { reactive, ref, onMounted, watch, computed } from 'vue'
 import StepsComponent from './components/StepsComponent.vue'
-import { resize_image } from '../pkg/wasm_image_processor.js'
+import { resize_square } from 'wasm-image-processor'
 import JSZip from 'jszip'
 
 const manifest = reactive({
@@ -689,7 +689,7 @@ const processLogoToIcons = async () => {
 
 		for (const size of iconSizes) {
 			try {
-				const resizedData = resize_image(imageData, size)
+				const resizedData = resize_square(imageData, size)
 
 				const blob = new Blob([resizedData], { type: 'image/png' })
 				const dataUrl = await new Promise((resolve) => {

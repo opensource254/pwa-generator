@@ -11,7 +11,7 @@
   "dependencies": {
     "jszip": "^3.10.1",
     "vue": "^3.5.19",
-    "wasm-image-processor": "link:pkg"
+    "wasm-image-processor": "^0.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",
