@@ -6,20 +6,20 @@ Live Demos:
 - [Netlify](https://pwagenerator.netlify.app)
 - [Cloudflare](https://pwa-generator.pages.dev)
 
-**Target Users:** This tool is designed for developers of all levels, from beginners looking to get started with PWAs to experienced developers seeking a quick scaffolding solution.
+### Target Users 
+This tool is designed for developers of all levels, from beginners looking to get started with PWAs to experienced developers seeking a quick scaffolding solution.
 
-**Limitations:** Currently, this tool focuses on generating basic manifest and service worker files. More advanced features are planned for future releases.
+### Limitations 
+Currently, this tool focuses on generating basic manifest and service worker files. More advanced features are planned for future releases.
 
-## Features
+## PWA Features Checklist
 
-Here's a breakdown of the current and planned features:
-
-- Generate Manifest
-- Generate Service Worker
-- Generate Icons
-- Offline Support
-- IndexedDB Integration
-- Push Notifications
+- [x] Generate Manifest
+- [x] Generate Service Worker
+- [x] Generate Icons
+- [x] Offline Support
+- [ ] IndexedDB Integration
+- [ ] Push Notifications
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ Using the PWA Generator is simple:
 
 1.  Visit the live demo at [https://pwagenerator.netlify.app](https://pwagenerator.netlify.app).
 2.  Fill in the required information in the forms.
-3.  Download the generated `manifest.json` and `service-worker.js` files.
+3.  Download the generated `manifest.json` and `sw.js` files.
 4.  Integrate these files into your web application.
 
 ## Contributing
