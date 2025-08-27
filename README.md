@@ -2,7 +2,9 @@
 
 > Quickly and easily generate the core components of a Progressive Web App (PWA) to enhance your web applications.
 
-Live Demo: [https://pwagenerator.netlify.app](https://pwagenerator.netlify.app)
+Live Demos: 
+- [Netlify](https://pwagenerator.netlify.app)
+- [Cloudflare](https://pwa-generator.pages.dev)
 
 **Target Users:** This tool is designed for developers of all levels, from beginners looking to get started with PWAs to experienced developers seeking a quick scaffolding solution.
 
