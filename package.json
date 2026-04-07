@@ -27,7 +27,7 @@
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.2",
     "typescript-eslint": "^8.57.2",
-    "vite": "^8.0.2",
+    "vite": "^8.0.5",
     "vite-plugin-wasm": "^3.6.0",
     "vue-eslint-parser": "^10.4.0"
   },
