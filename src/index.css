@@ -3,62 +3,92 @@
 @plugin '@tailwindcss/forms';
 
 @theme {
-	--color-primary: #69dc9e;
-	--color-gray-50: #f9fafb;
-	--color-gray-100: #f3f4f6;
-	--color-gray-200: #e5e7eb;
-	--color-gray-300: #d1d5db;
-	--color-gray-400: #9ca3af;
-	--color-gray-500: #6b7280;
-	--color-gray-600: #4b5563;
-	--color-gray-700: #374151;
-	--color-gray-800: #1f2937;
-	--color-gray-900: #111827;
+	--font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+	--font-display: "Bricolage Grotesque", "Figtree", ui-sans-serif, system-ui, sans-serif;
+
+	--color-primary: #1f9d6a;
+	--color-primary-bright: #69dc9e;
+	--color-ink: #132019;
+	--color-ink-muted: #5b6b62;
+	--color-paper: #eef3ee;
+	--color-surface: #fbfdfb;
+	--color-line: #d5dfd7;
+	--color-line-strong: #b7c6bb;
+
+	--color-gray-50: #f7faf7;
+	--color-gray-100: #eef3ee;
+	--color-gray-200: #d5dfd7;
+	--color-gray-300: #b7c6bb;
+	--color-gray-400: #7e9086;
+	--color-gray-500: #5b6b62;
+	--color-gray-600: #3e4d45;
+	--color-gray-700: #2a3831;
+	--color-gray-800: #1b2720;
+	--color-gray-900: #132019;
 }
 
-/*
-	The default border color has changed to `currentColor` in Tailwind CSS v4,
-	so we've added these compatibility styles to make sure everything still
-	looks the same as it did with Tailwind CSS v3.
-
-	If we ever want to remove these styles, we need to add an explicit border
-	color utility to any element that depends on these defaults.
-*/
 @layer base {
 	*,
 	::after,
 	::before,
 	::backdrop,
 	::file-selector-button {
-		border-color: var(--color-gray-200, currentColor);
+		border-color: var(--color-line, currentColor);
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+
+	html,
+	body,
+	#app {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	body {
+		font-family: var(--font-sans);
+		color: var(--color-ink);
+		background-color: var(--color-paper);
+		background-image:
+			radial-gradient(ellipse 70% 40% at 0% -10%, rgba(105, 220, 158, 0.22), transparent 55%),
+			radial-gradient(ellipse 50% 30% at 100% 0%, rgba(18, 32, 25, 0.06), transparent 50%);
+		min-height: 100vh;
+		overflow-x: hidden;
+	}
+
+	::selection {
+		background: rgba(105, 220, 158, 0.35);
+		color: var(--color-ink);
 	}
 }
 
+@utility font-display {
+	font-family: var(--font-display);
+}
+
 @utility form_input {
-	@apply w-full focus:border-primary focus:ring-1 focus:ring-primary border-2 focus:outline-none rounded-lg mb-3 last-of-type:mb-5 px-3 py-2 transition-colors;
+	@apply w-full bg-white border border-line rounded-xl px-3.5 py-2.5 text-ink text-[0.95rem]
+		placeholder:text-ink-muted/45
+		focus:border-primary focus:ring-2 focus:ring-primary/15 focus:outline-none
+		transition-colors;
 }
 
-/* Additional utilities for better UX */
-.transition-colors {
-	transition-property: color, background-color, border-color;
-	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-	transition-duration: 150ms;
+.color-swatch::-webkit-color-swatch-wrapper {
+	padding: 0;
 }
 
-.transition-all {
-	transition-property: all;
-	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-	transition-duration: 150ms;
+.color-swatch::-webkit-color-swatch {
+	border: none;
+	border-radius: 0.65rem;
 }
 
-/* Custom focus styles for better accessibility */
-input:focus,
-select:focus,
-textarea:focus {
-	box-shadow: 0 0 0 3px rgba(105, 220, 158, 0.1);
+.color-swatch::-moz-color-swatch {
+	border: none;
+	border-radius: 0.65rem;
 }
 
-/* Loading animation */
 @keyframes spin {
 	from {
 		transform: rotate(0deg);
@@ -69,5 +99,19 @@ textarea:focus {
 }
 
 .animate-spin {
-	animation: spin 1s linear infinite;
+	animation: spin 0.8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	.animate-spin {
+		animation: none;
+	}
+
+	* {
+		transition-duration: 0.01ms !important;
+	}
 }
