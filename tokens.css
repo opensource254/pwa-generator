@@ -1,0 +1,40 @@
+/* Hallmark · macrostructure: Component Playground · genre: modern-minimal · theme: existing green brand
+ * pre-emit critique: P4 H4 E4 S5 R5 V4 · audience: developers · use: PWA configuration · tone: calm and precise
+ */
+:root {
+  --color-primary: oklch(43% 0.105 158);
+  --color-primary-bright: oklch(82% 0.14 155);
+  --color-ink: oklch(23% 0.025 155);
+  --color-ink-muted: oklch(43% 0.025 155);
+  --color-paper: oklch(97% 0.009 150);
+  --color-surface: oklch(99% 0.004 150);
+  --color-line: oklch(86% 0.02 150);
+  --color-line-strong: oklch(65% 0.03 150);
+  --color-focus: oklch(42% 0.12 155);
+  --color-accent-ink: oklch(99% 0.004 150);
+  --color-error: oklch(43% 0.16 25);
+  --color-preview-light: oklch(100% 0 0);
+  --color-preview-dark: oklch(0% 0 0);
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-display: clamp(2rem, 4vw, 3rem);
+  --radius-input: 0.5rem;
+  --radius-panel: 1rem;
+  --rule-width: 1px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-short: 120ms;
+}

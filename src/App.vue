@@ -1,6 +1,6 @@
 <template>
 	<div class="min-h-screen">
-		<header class="w-full border-b border-line bg-surface sticky top-0 inset-x-0 z-30">
+		<header class="app-header">
 			<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
 				<div class="flex items-center gap-3 min-w-0">
 					<div class="w-9 h-9 rounded-xl bg-ink text-primary-bright flex items-center justify-center shrink-0">
@@ -17,7 +17,7 @@
 				<a
 					href="https://github.com/opensource254/pwa-generator"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener noreferrer" aria-label="PWA Generator on GitHub"
 					class="text-sm font-medium text-ink-muted hover:text-ink inline-flex items-center gap-2 rounded-lg px-2 py-1 transition-colors"
 				>
 					<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -28,21 +28,17 @@
 			</div>
 		</header>
 
-		<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 pb-28 lg:pb-12">
-			<div class="mb-8 lg:mb-10 max-w-2xl min-w-0">
-				<p class="text-[11px] sm:text-xs font-semibold tracking-[0.12em] uppercase text-primary mb-3">
-					From a name to an installable app
-				</p>
-				<h1 class="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-ink mb-3 text-balance">
-					Build a PWA package in one sitting
+		<main class="app-main">
+			<div class="app-intro">
+				<h1 class="app-title">
+					Make your web app installable
 				</h1>
 				<p class="text-ink-muted text-base leading-relaxed text-pretty">
 					Type your app name. We fill the rest with defaults that work — then you can tweak colors, the icon, and how it launches.
 				</p>
 			</div>
 
-			<div class="lg:hidden mb-6 bg-surface border border-line rounded-2xl p-4">
-				<p class="text-xs font-semibold text-ink-muted mb-3">Live preview</p>
+			<div class="lg:hidden mobile-preview">
 				<DevicePreview
 					compact
 					:name="manifest.name"
@@ -55,9 +51,9 @@
 				/>
 			</div>
 
-			<div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-8 lg:gap-12 items-start">
-				<div class="space-y-6">
-					<section class="bg-surface border border-line rounded-2xl p-5 sm:p-7 shadow-[0_1px_0_rgba(255,255,255,0.7)_inset]">
+			<div class="workspace">
+				<div class="configuration">
+					<section class="config-section">
 						<div class="flex items-baseline justify-between gap-3 mb-5">
 							<h2 class="font-display text-xl font-bold">App identity</h2>
 							<span class="text-xs text-ink-muted">Required</span>
@@ -123,7 +119,7 @@
 						</div>
 					</section>
 
-					<section class="bg-surface border border-line rounded-2xl p-5 sm:p-7">
+					<section class="config-section">
 						<h2 class="font-display text-xl font-bold mb-1">Look</h2>
 						<p class="text-sm text-ink-muted mb-5">Colors drive the status bar and splash screen. A logo is optional — we generate a letter mark if you skip it.</p>
 
@@ -171,7 +167,7 @@
 						<div>
 							<p class="text-sm font-semibold text-ink mb-2">App icon</p>
 							<div
-								class="relative rounded-2xl border-2 border-dashed transition-colors"
+								class="upload-area relative rounded-xl border border-dashed"
 								:class="isDragging
 									? 'border-primary bg-primary-bright/10'
 									: uploadedLogo
@@ -184,13 +180,13 @@
 							>
 								<input
 									@change="handleLogoUpload"
-									class="hidden"
+									class="sr-only upload-input"
 									type="file"
 									id="logoUpload"
 									accept="image/png,image/jpeg,image/webp"
 									ref="fileInput"
 								/>
-								<label for="logoUpload" class="cursor-pointer block p-6 sm:p-8">
+								<label for="logoUpload" class="upload-label cursor-pointer block p-6 sm:p-8">
 									<div v-if="!uploadedLogo" class="text-center">
 										<div class="mx-auto mb-3 w-12 h-12 rounded-2xl bg-paper flex items-center justify-center text-ink-muted">
 											<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -203,7 +199,7 @@
 									<div v-else class="flex items-center gap-4">
 										<img :src="uploadedLogo" alt="Uploaded logo" class="w-16 h-16 rounded-2xl object-cover border border-line shadow-sm" />
 										<div class="text-left min-w-0">
-											<p class="font-semibold text-ink">{{ uploadedLogoFile?.name }}</p>
+											<p class="uploaded-filename font-semibold text-ink">{{ uploadedLogoFile?.name }}</p>
 											<p class="text-sm text-ink-muted">Click or drop a new file to replace it</p>
 										</div>
 									</div>
@@ -211,15 +207,15 @@
 								<button
 									v-if="uploadedLogo"
 									type="button"
-									class="absolute top-3 right-3 text-xs font-medium text-ink-muted hover:text-ink bg-white border border-line rounded-lg px-2.5 py-1"
+									class="remove-upload secondary-action"
 									@click.stop.prevent="clearLogo"
 								>
 									Remove
 								</button>
 							</div>
-							<p v-if="iconNote" class="text-xs text-ink-muted mt-2">{{ iconNote }}</p>
+							<p class="icon-note text-xs text-ink-muted mt-2">{{ iconNote }}</p>
 
-							<div v-if="isProcessing" class="mt-4 flex items-center gap-2 text-sm text-ink-muted">
+							<div v-if="isProcessing" role="status" class="mt-4 flex items-center gap-2 text-sm text-ink-muted">
 								<div class="animate-spin rounded-full h-4 w-4 border-2 border-line-strong border-t-primary"></div>
 								Generating icon sizes…
 							</div>
@@ -246,16 +242,16 @@
 						</div>
 					</section>
 
-					<section class="bg-surface border border-line rounded-2xl p-5 sm:p-7">
+					<section class="config-section">
 						<button
 							type="button"
-							class="w-full flex items-center justify-between gap-3 text-left"
+							class="advanced-toggle w-full flex items-center justify-between gap-3 text-left" aria-controls="advanced-settings"
 							@click="showAdvanced = !showAdvanced"
 							:aria-expanded="showAdvanced"
 						>
 							<div>
 								<h2 class="font-display text-xl font-bold">Launch & offline</h2>
-								<p class="text-sm text-ink-muted mt-0.5">Defaults already match a typical installed app. Open only if you need to change them.</p>
+
 							</div>
 							<svg
 								class="w-5 h-5 text-ink-muted shrink-0 transition-transform"
@@ -269,14 +265,15 @@
 							</svg>
 						</button>
 
-						<div v-show="showAdvanced" class="mt-6 space-y-6">
+						<p class="text-sm text-ink-muted mt-2">Defaults already match a typical installed app. Open only if you need to change them.</p>
+						<div id="advanced-settings" v-show="showAdvanced" class="mt-6 space-y-6">
 							<div>
 								<p class="text-sm font-semibold text-ink mb-2">Display mode</p>
 								<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
 									<label
 										v-for="option in displayOptions"
 										:key="option.value"
-										class="flex items-start gap-3 rounded-xl border p-3 cursor-pointer transition-colors"
+										class="option-row flex items-start gap-3 p-3 cursor-pointer"
 										:class="manifest.display === option.value
 											? 'border-primary bg-primary-bright/10'
 											: 'border-line bg-white hover:border-line-strong'"
@@ -308,7 +305,7 @@
 									<label
 										v-for="option in cacheOptions"
 										:key="option.value"
-										class="flex items-start gap-3 rounded-xl border p-3 cursor-pointer transition-colors"
+										class="option-row flex items-start gap-3 p-3 cursor-pointer"
 										:class="cacheStrategy === option.value
 											? 'border-primary bg-primary-bright/10'
 											: 'border-line bg-white hover:border-line-strong'"
@@ -371,8 +368,8 @@
 					</section>
 				</div>
 
-				<aside class="hidden lg:block sticky top-24 space-y-5">
-					<div class="bg-surface border border-line rounded-2xl p-5">
+				<aside class="preview-sidebar hidden lg:block">
+					<div class="preview-container">
 						<DevicePreview
 							:name="manifest.name"
 							:short-name="manifest.short_name"
@@ -395,15 +392,15 @@
 		</main>
 
 		<div
-			class="lg:hidden sticky bottom-0 z-20 border-t border-line bg-surface/95 backdrop-blur-md px-4 py-3"
+			class="mobile-download lg:hidden"
 		>
 			<button
 				type="button"
-				class="w-full bg-ink text-white font-semibold rounded-xl py-3.5 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-ink/90 transition-colors"
+				class="primary-action" :aria-busy="isDownloading"
 				:disabled="!canDownload || isDownloading"
 				@click="downloadPWAFiles"
 			>
-				{{ isDownloading ? 'Preparing zip…' : 'Download PWA package' }}
+				{{ isDownloading ? 'Preparing zip…' : 'Download package' }}
 			</button>
 		</div>
 
@@ -411,13 +408,13 @@
 			v-show="toast.show"
 			role="status"
 			aria-live="polite"
-			class="fixed bottom-20 lg:bottom-6 right-4 bg-ink text-white px-4 py-3 rounded-xl shadow-lg z-50 max-w-sm"
+			class="app-toast"
 		>
 			<div class="flex items-start gap-2 text-sm">
-				<svg v-if="toast.type === 'success'" class="w-5 h-5 text-primary-bright shrink-0" fill="currentColor" viewBox="0 0 20 20">
+				<svg aria-hidden="true" v-if="toast.type === 'success'" class="w-5 h-5 text-primary-bright shrink-0" fill="currentColor" viewBox="0 0 20 20">
 					<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
 				</svg>
-				<svg v-else class="w-5 h-5 text-red-300 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+				<svg aria-hidden="true" v-else class="w-5 h-5 text-red-300 shrink-0" fill="currentColor" viewBox="0 0 20 20">
 					<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
 				</svg>
 				<span>{{ toast.message }}</span>
@@ -432,6 +429,7 @@ import DevicePreview from './components/DevicePreview.vue'
 import DownloadPanel from './components/DownloadPanel.vue'
 import { resize_square } from 'wasm-image-processor'
 import JSZip from 'jszip'
+import { contrastInk } from './utils/contrast'
 
 const manifest = reactive({
 	id: '/',
@@ -562,18 +560,6 @@ const showToast = (message, type = 'success') => {
 	setTimeout(() => {
 		toast.show = false
 	}, 4200)
-}
-
-const contrastInk = (hex) => {
-	const raw = (hex || '#1f9d6a').replace('#', '')
-	const full = raw.length === 3
-		? raw.split('').map(ch => ch + ch).join('')
-		: raw.padEnd(6, '0').slice(0, 6)
-	const r = Number.parseInt(full.slice(0, 2), 16) || 0
-	const g = Number.parseInt(full.slice(2, 4), 16) || 0
-	const b = Number.parseInt(full.slice(4, 6), 16) || 0
-	const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-	return luminance > 0.62 ? '#132019' : '#ffffff'
 }
 
 const canvasToBlob = (canvas) => {
@@ -807,7 +793,6 @@ const processLogoToIcons = async () => {
 
 		iconSource.value = 'logo'
 		updateManifestIcons()
-		showToast(`Generated ${processedIcons.value.length} icon sizes`)
 	}
 	catch (error) {
 		console.error('Error processing logo:', error)
